@@ -40,7 +40,7 @@ Click "Create", you will be taken to the code editor.
 Paste the following code into the editor, and click `Save`:
 
 ```
-let my_scene = https://neuronbench.com/imalsogreg/lib/scene.ffg
+let my_scene = https://neuronbench.com/imalsogreg/docs-demo/scene.ffg
 in my_scene
 ```
 
@@ -49,11 +49,11 @@ in my_scene
 This "scene" is an expression in NeuronBench's configuration language. The name `my_scene` is not important,  you could choose any name you like.
 
 This code binds the configuration at the address
-`https://neuronbench.com/imalsogreg/lib/scene.ffg` to the variable
+`https://neuronbench.com/imalsogreg/docs-demo/scene.ffg` to the variable
 `my_scene`, and returns `my_scene`.
 
 In [Core Modeling](../core-modeling/), we will look at the contents of
-`https://neuronbench.com/imalsogreg/lib/scene.ffg` to see what makes up a `Scene`. For now, we will just use the `Scene` directly, without looking into its details.
+`https://neuronbench.com/imalsogreg/docs-demo/scene.ffg` to see what makes up a `Scene`. For now, we will just use the `Scene` directly, without looking into its details.
 
 
 ## Preview the Scene
