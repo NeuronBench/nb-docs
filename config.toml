@@ -1,0 +1,28 @@
+# The URL the site will be built for
+base_url = "https://docs.neuronbench.com"
+
+theme = "adidoks"
+
+title = "NeuronBench"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+taxonomies = [
+    { name = "authors", feed = true}
+]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = false
+
+
+
+[extra]
+author = "Greg Hale"
+github = "https://github.com/neuronbench"
+email = "greg.hale@neuronbench.com"
