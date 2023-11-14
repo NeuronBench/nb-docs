@@ -17,7 +17,9 @@ top = false
 
 ## Quick Start
 
-In just a few minutes, you will create an account, start your first project and populate it with a copy of the demo model (a network with two neurons and a synapse). <br/> [Quick Start →](../quick-start/)
+In just a few minutes, you will create an account, start your first project and
+populate it with a copy of the demo model (a network with two neurons and a
+synapse). <br/> [Quick Start →](../quick-start/)
 
 ## Core Modeling Concepts
 
