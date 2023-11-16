@@ -148,15 +148,15 @@ Next we will next examine the file linked within our located neuron:
 `https://neuronbench.com/imalsogreg/docs-demo/neuron.ffg`
 
 ```
-let membranes = https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg
+let m = https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg
 in
 Neuron {
  membranes: [
-    membranes.pyramidal_cell.soma,
-    membranes.pyramidal_cell.axon,
-    membranes.pyramidal_cell.basal_dendrite,
-    membranes.pyramidal_cell.apical_dendrite,
-    membranes.pyramidal_cell.apical_dendrite,
+    m.pyramidal_cell.soma,
+    m.pyramidal_cell.axon,
+    m.pyramidal_cell.basal_dendrite,
+    m.pyramidal_cell.apical_dendrite,
+    m.pyramidal_cell.apical_dendrite,
  ],
  segments: [
   {id: 1, x: 1273.4436, y: 1106.0421, z: 72.3856, r: 6.9784, type: 1, parent: -1},
@@ -198,3 +198,67 @@ entry in `membranes` will be applied to every segment with `type: 2` (Axon), etc
 
 #### Aside: let _ in _
 
+Let's take a moment to understand a pattern that has appeared a few times: "let
+expressions". A "let expression" (which looks like `let x = y in z`) is used to
+assign `y` to the variable `x` within the expressio `z`.
+
+Let expressions are useful for removing duplication. In our `Neuron`, we used
+a let expression to create a shorthand reference to
+`https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg`. We did not have to
+do this. Here is what the code would have looked like without the let expression:
+
+```
+Neuron {
+ membranes: [
+    (https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg).pyramidal_cell.soma,
+    (https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg).pyramidal_cell.axon,
+    (https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg).pyramidal_cell.basal_dendrite,
+    (https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg).pyramidal_cell.apical_dendrite,
+    (https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg).pyramidal_cell.apical_dendrite,
+ ],
+ segments: [
+  {id: 1, x: 1273.4436, y: 1106.0421, z: 72.3856, r: 6.9784, type: 1, parent: -1},
+  {id: 30, x: 1262.873, y: 1141.7006, z: 69.9832, r: 0.1144, type: 2, parent: 1},
+  {id: 60, x: 1250.3691, y: 1171.8221, z: 71.7704, r: 0.1144, type: 2, parent: 30},
+  {id: 90, x: 1238.3686, y: 1203.0647, z: 76.5666, r: 0.1144, type: 2, parent: 60},
+  {id: 100, x: 1234.0442, y: 1213.0633, z: 80.3158, r: 0.1144, type: 2, parent: 90},
+  ...
+  ]
+```
+
+This is valid, but repetitive.
+
+A let expression can be used anywhere that a normal expression could appear. For example,
+we could rewrite our original `Neuron` this way:
+
+```
+Neuron {
+ membranes: 
+   let m = https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg in
+     [
+       m.pyramidal_cell.soma,
+       m.pyramidal_cell.axon,
+       m.pyramidal_cell.basal_dendrite,
+       m.pyramidal_cell.apical_dendrite,
+       m.pyramidal_cell.apical_dendrite,
+     ],
+ segments: [
+  {id: 1, x: 1273.4436, y: 1106.0421, z: 72.3856, r: 6.9784, type: 1, parent: -1},
+  {id: 30, x: 1262.873, y: 1141.7006, z: 69.9832, r: 0.1144, type: 2, parent: 1},
+  {id: 60, x: 1250.3691, y: 1171.8221, z: 71.7704, r: 0.1144, type: 2, parent: 30},
+  {id: 90, x: 1238.3686, y: 1203.0647, z: 76.5666, r: 0.1144, type: 2, parent: 60},
+  {id: 100, x: 1234.0442, y: 1213.0633, z: 80.3158, r: 0.1144, type: 2, parent: 90},
+  ...
+  ]
+}
+```
+
+Where you put let expressions is up to you as the author of your configuration
+files.
+
+One helpful convention to follow: **When using URL to other configuration files,
+it is good practice to use let expressions to bind them to a name at the beginning
+of your configuration file,** as was done in the original `Neuron` configuration
+example. This makes it easy to see your external dependencies at a glance. Conversely
+if you scatter URLs through a large configuration file, it can become hard to remember
+which files depend on which other files.
