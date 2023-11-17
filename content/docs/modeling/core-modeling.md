@@ -262,3 +262,490 @@ of your configuration file,** as was done in the original `Neuron` configuration
 example. This makes it easy to see your external dependencies at a glance. Conversely
 if you scatter URLs through a large configuration file, it can become hard to remember
 which files depend on which other files.
+
+## The Membrane Constructor
+
+Let's examine the contents of
+`https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg`.
+
+```
+let channels = https://neuronbench.com/imalsogreg/docs-demo/channels.ffg
+let leak = channels.giant_squid.leak
+let k_slow = channels.rat_thalamocortical.k_slow
+let na_transient = channels.rat_thalamocortical.na_transient
+let hcn_soma = channels.rat_ca1_pyramidal.hcn_soma
+let hcn_dendrite = channels.rat_ca1_pyramidal.hcn_dendrite
+
+in {
+
+  pyramidal_cell: {
+
+    apical_dendrite: Membrane {
+      capacitance_farads_per_square_cm: 2.0e-6,
+      membrane_channels: [
+        { channel: na_transient , siemens_per_square_cm: 0.023 },
+        { channel: leak , siemens_per_square_cm: 0.03e-3 },
+        { channel: hcn_dendrite , siemens_per_square_cm: 0.08e-3 },
+        { channel: k_slow , siemens_per_square_cm: 0.040 }
+      ]
+    },
+
+    basal_dendrite: Membrane {
+      capacitance_farads_per_square_cm: 2.0e-6,
+      membrane_channels: [
+        { channel: leak , siemens_per_square_cm: 0.03e-3 },
+        { channel: hcn_dendrite , siemens_per_square_cm: 0.08e-3 }
+      ]
+    },
+
+    axon_initial_segment: Membrane {
+      capacitance_farads_per_square_cm: 1.0e-6,
+      membrane_channels: [
+        { channel: na_transient , siemens_per_square_cm: 120.0e-3 },
+        { channel: leak , siemens_per_square_cm: 0.3e-3 },
+        { channel: k_slow , siemens_per_square_cm: 36.0e-3 }
+      ]
+    },
+
+    axon: Membrane {
+      capacitance_farads_per_square_cm: 1.0e-6,
+      membrane_channels: [
+        { channel: na_transient , siemens_per_square_cm: 120.0e-3 },
+        { channel: leak , siemens_per_square_cm: 0.3e-3 },
+        { channel: k_slow , siemens_per_square_cm: 36.0e-3 }
+      ]
+    },
+
+    soma: Membrane {
+      capacitance_farads_per_square_cm: 1.0e-6,
+      membrane_channels: [
+        { channel: k_slow, siemens_per_square_cm: 36.0e-3 },
+        { channel: na_transient, siemens_per_square_cm: 120.0e-3 },
+        { channel: leak, siemens_per_square_cm: 3.0e-5 }
+      ]
+    }
+
+  }
+}
+```
+
+#### Aside - Bare records
+
+There are two things to understand before we focus on the details of
+a `Membrane` - The use of `let _ in _` and the fact that the top level
+record in this file does not have a constructor.
+
+We use `let _ in _` to import the configuration at
+`https://neuronbench.com/imalsogreg/docs-demo/channels.ffg` and give it the
+name `channels`. Then we use more `let` bindings to bind subfields of
+`channels` to short names. For example, we bind `channels.giant_squid.leak`
+to the name `leak`. Later, when we examine the `channels.ffg` configuration file,
+we will see how these subfields `giant_squid` and `leak` are defined.
+
+After our name bindings, we have a top-level record with no constructor.
+It has one top-level field, `pyramidal_cell`, which in turn has the fields
+`apical_dendrite`, `basal_dendrite`, `axon_initial_segment`, etc. Only
+under these fields do we see our constructor, `Membrane`. How do we interpret
+these top-level records with no constructor?
+
+A top-level record without a constructor can have any fields that you like. It
+is a free-from way for you to organize your data. This is the main distinction
+between bare records and records that start with constructors. Bare records are
+flexible and can take whatever shape is useful for you in organizing your data.
+Constructor records represent concrete entities in the simulation and must
+contain exactly the set of fields and sub-fields needed by that entity.
+
+#### Membranes
+
+A `Membrane` represents a unit area of cell membrane, which has an intrinsic
+capacitance (per unit area) and any number of active ion conductances (also
+per unit area).
+
+The `Membrane` constructor has two fields:
+ - `capacitance_farads_per_square_cm`: The membrane capacitance.
+ - `membrane_channels`: A list of channels and their expression levels in this membrane. Each element is a record with the fields:
+   - `channel`: The `Channel` type.
+   - `siemens_per_square_cm`: The peak conductance for that channel in a unit area of this type membrane.
+
+## The Channel Constructor
+
+Channels are the lowest level entity in NeuronBench. They are also fairly
+complicated, since they are responsible for all of the Hodgkin-Huxley dynamics
+of the simulation. Let's look at the
+configuration file `https://neuronbench.com/imalsogreg/docs-demo/channels.ffg`,
+which was imported by `https://neuronbench.com/imalsogreg/docs-demo/membranes.ffg`,
+to see some `Channel`s.
+
+```
+{
+
+  giant_squid: {
+     k: Channel {
+       ion_selectivity: { k: 1.0, na: 0.0, cl: 0.0, ca: 0.0 },
+       activation: {
+         gates: 4,
+         magnitude: {v_at_half_max_mv: -53.0, slope: 15.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -79.0,
+             c_base: 1.1e-3,
+             c_amp: 4.7e-3,
+             sigma: 50.0
+           }
+       },
+       inactivation: null,
+     },
+
+     na: Channel {
+       ion_selectivity: { k: 0.0, na: 1.0, cl: 0.0, ca: 0.0 },
+       activation: {
+         gates: 3,
+         magnitude: {v_at_half_max_mv: -40.0, slope: 15.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -38.0,
+             c_base: 0.04e-3,
+             c_amp: 0.46e-3,
+             sigma: 30.0
+           }
+       },
+       inactivation: {
+         gates: 1,
+         magnitude: {v_at_half_max_mv: -62.0, slope: -7.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -67.0,
+             c_base: 1.2e-3,
+             c_amp: 7.4e-3,
+             sigma: 20.0
+           }
+       }
+     },
+
+     leak: Channel {
+       ion_selectivity: { k: 0.0, na: 0.0, cl: 1.0, ca: 0.0 },
+       activation: null,
+       inactivation: null,
+     }
+  },
+
+  rat_thalamocortical: {
+
+    na_transient: Channel {
+      ion_selectivity: { k: 0.0, na: 1.0, cl: 0.0, ca: 0.0 },
+      activation: {
+        gates: 1,
+        magnitude: {v_at_half_max_mv: -30.0, slope: 5.5},
+        time_constant: Instantaneous {}
+      },
+      inactivation: {
+        gates: 1,
+        magnitude: {v_at_half_max_mv: -70.0, slope: -5.8},
+        time_constant: LinearExp {
+          coef: 3.0,
+          v_offset_mv: -40.0,
+          inner_coef: 0.03
+        }
+      }
+    },
+    k_slow: Channel {
+      ion_selectivity: { k: 1.0, na: 0.0, cl: 0.0, ca: 0.0 },
+      activation: {
+        gates: 1,
+        magnitude: {v_at_half_max_mv: -3.0, slope: 10.0},
+        time_constant: Gaussian {
+          v_at_max_tau_mv: -50.0,
+          c_base: 0.005,
+          c_amp: 0.047,
+          sigma: 0.030,
+        }
+      },
+      inactivation: {
+        gates: 1,
+        magnitude: {v_at_half_max_mv: -51.0, slope: -12.0},
+        time_constant: Gaussian {
+          v_at_max_tau_mv: -50.0,
+          c_base: 0.36,
+          c_amp: 0.1,
+          sigma: 50.0
+        }
+      }
+    }
+  },
+
+  rat_ca1_pyramidal: {
+    hcn_soma: Channel {
+      ion_selectivity: { na: 0.35, k: 0.65, cl: 0.0, ca: 0.0 },
+      activation: null,
+      inactivation: {
+        gates: 1,
+        magnitude: {v_at_half_max_mv: -82.0, slope: -9.0},
+        time_constant: Gaussian {
+          v_at_max_tau_mv: -75.0,
+          c_base:  10.0e-3,
+          c_amp:  50.0e-3,
+          sigma: 20.0
+        } 
+      }
+    },
+    hcn_dendrite: Channel {
+      ion_selectivity: { na: 0.55, k: 0.45, cl: 0.0, ca: 0.0 },
+      activation: null,
+      inactivation: {
+        gates: 1,
+        magnitude: {v_at_half_max_mv: -90.0, slope: -8.5},
+        time_constant: Gaussian {
+          v_at_max_tau_mv: -75.0,
+          c_base: 10.0e-3,
+          c_amp: 40.0e-3,
+          sigma:  20.0
+        }
+      }
+    }
+  }
+}
+```
+
+Like our `membranes.ffg` model, `channels.ffg` is a bare top-level record that
+uses custom fields to group various channels together. This grouping is arbitrary,
+and it would have been valid to put each channel into its own file, letting each
+file begin with a `Channel` constructor, instead of grouping them all into one
+struct.
+
+A `Channel` constructor record contains three fields:
+ - `ion_selectivity`: A record specifying the relative permiability of the channel to Na+, K+, Ca++, and Cl-.
+ - `activation`, which we will describe below.
+ - `inactivation`, identical to activation.
+
+The simplest example to look at is the field `giant_squid.leak`:
+
+```
+...
+     leak: Channel {
+       ion_selectivity: { k: 0.0, na: 0.0, cl: 1.0, ca: 0.0 },
+       activation: null,
+       inactivation: null,
+     }
+...
+```
+
+`ion_selectivity` specifies that this channel is only permeable to Cl-. The constructor
+enforces that `activation` and `inactivation` are specified, but `null` is a valid
+value since not all channels activate or inactivate.
+
+For an example of a channel with an activation mechanism we will look at the
+giant squid axon's potassium channel:
+
+```
+     k: Channel {
+       ion_selectivity: { k: 1.0, na: 0.0, cl: 0.0, ca: 0.0 },
+       activation: {
+         gates: 4,
+         magnitude: {v_at_half_max_mv: -53.0, slope: 15.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -79.0,
+             c_base: 1.1e-3,
+             c_amp: 4.7e-3,
+             sigma: 50.0
+           }
+       },
+       inactivation: null,
+     },
+```
+
+
+
+The `activation` field, when not `null`, has the fields:
+
+ - `gates`
+ - `magnitude`
+ - `time_constant`
+
+These fields are easiest to understand if we refer back to the formulas
+describing the Hodgkin-Huxley dynamics. The following formula gives the
+instantaneous current through the K channels in terms the maximal K
+conductance <math display="inline"> <msub><mi>g</mi><mi>K</mi></msub></math>,
+the activation <math display="inline"> <mi>n</mi> </math>, the number of gates
+in a given channel ( <math display="inline"> <mi>4</mi></math> for this channel ),
+and the difference between the membrane potential and the K reversal potential.
+The `gates` parameter for our K channel is therefore `4`.
+
+<math display="block">
+  <mi>I</mi>
+  <mo>=</mo>
+  <msub>
+    <mi>g</mi>
+    <mi>K</mi>
+  </msub>
+  <mo>&#8290;</mo>
+  <msup>
+    <mi>n</mi>
+    <mn>4</mn> <!-- Corresponds to activation.gates -->
+  </msup>
+  <mo>&#8290;</mo>
+  <mo>(</mo>
+  <mi>V</mi>
+  <mo>-</mo>
+  <msub>
+    <mi>E</mi>
+    <mi>K</mi>
+  </msub>
+  <mo>)</mo>
+</math>
+
+
+<math display="inline"> <mi>n</mi></math> the activation is a dynamic value. It has
+a steady-state value
+<math display="inline">
+  <msub><mi>n</mi><mi>&#x221E;</mi></msub><mi>(</mi><mi>V</mi><mi>)</mi>
+  </math>, which is a function of the Voltage, and it approaches that steady-state
+value at the rate <math display="inline">
+  <mi>&tau;</mi><mi>(</mi><mi>V</mi><mi>)</mi>  </math>
+, which is also a function of membrane
+  voltage `test`.
+  
+The relationship between the steady state activation level and membrane voltage,
+<math display="inline">
+  <msub>
+    <mi>n</mi>
+    <mi>&#x221E;</mi>
+  </msub>
+  <mi>(</mi>
+  <mi>V</mi>
+  <mi>)</mi>
+</math>
+is approximated by the Bolzman function.
+
+<math display="block">
+  <msub>
+    <mi>n</mi>
+    <mo>&#x221E;</mo> <!-- Infinity symbol -->
+  </msub>
+  <mo>(</mo>
+  <mi>V</mi>
+  <mo>)</mo>
+  <mo>=</mo>
+  <mfrac>
+    <mn>1</mn>
+    <mrow>
+      <mn>1</mn>
+      <mo>+</mo>
+      <mi>exp</mi>
+      <mo>{</mo>
+      <mo>(</mo>
+      <msub>
+        <mi>V</mi>
+        <mrow>
+          <mn>1/2</mn>
+        </mrow>
+      </msub>
+      <mo>-</mo>
+      <mi>V</mi>
+      <mo>)</mo>
+      <mo>/</mo>
+      <mi>k</mi>
+      <mo>}</mo>
+    </mrow>
+  </mfrac>
+</math>
+
+We specify this function in the `magnitude` field. It has
+two parameters:
+<math display="inline">
+      <msub>
+        <mi>V</mi>
+        <mrow>
+          <mn>1/2</mn>
+        </mrow>
+      </msub>
+</math>, which we specify as `v_at_half_max_mv`, and
+<math display="inline"><mi>k</mi></math>, which we specify as `slope`.
+
+
+The speed at which <math display="inline"><mi>n</mi></math> approaches
+<math display="inline"><msub><mi>n</mi><mi>&#x221E;</mi></msub></math> also
+depends on membrane voltage, but by a Gaussian function.
+
+<math display="block">
+  <mi>&tau;</mi>
+  <mo>(</mo>
+  <mi>V</mi>
+  <mo>)</mo>
+  <mo>=</mo>
+  <msub>
+    <mi>C</mi>
+    <mo>base</mo>
+  </msub>
+  <mo>+</mo>
+  <msub>
+    <mi>C</mi>
+    <mi>amp</mi>
+  </msub>
+  <mo>&#8290;</mo>
+  <mi>exp</mi>
+  <mfrac>
+    <mrow>
+      <mo>-</mo>
+      <mo>(</mo>
+      <msub>
+        <mi>V</mi>
+        <mi>max</mi>
+      </msub>
+      <mo>-</mo>
+      <mi>V</mi>
+      <mo>)</mo>
+      <msup>
+        <mo></mo>
+        <mn>2</mn>
+      </msup>
+    </mrow>
+    <mrow>
+      <mi>&sigma;</mi>
+      <msup>
+        <mo></mo>
+        <mn>2</mn>
+      </msup>
+    </mrow>
+  </mfrac>
+</math>
+
+We specify the
+Gaussian parameters under the `time_constant` field. We also use a `Gaussian`
+constructor, because there are other functions we can use for the time constant
+beyond Gaussians, but we will not cover the details of that here.
+(See [Time Constants](../../language-reference/time-constants/) if you are
+interested).
+
+The parameters of a Gaussian function are specified with the fields `c_base`, `c_amp`, `v_at_max_tau_mv`, and `sigma`.
+
+#### Inactivating Na+ Channels
+
+The `inactivation` field is specified in exactly the same way as the `activation` field,
+and is used for channels like the giant squid axon's Na+ channel.
+
+```
+     na: Channel {
+       ion_selectivity: { k: 0.0, na: 1.0, cl: 0.0, ca: 0.0 },
+       activation: {
+         gates: 3,
+         magnitude: {v_at_half_max_mv: -40.0, slope: 15.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -38.0,
+             c_base: 0.04e-3,
+             c_amp: 0.46e-3,
+             sigma: 30.0
+           }
+       },
+       inactivation: {
+         gates: 1,
+         magnitude: {v_at_half_max_mv: -62.0, slope: -7.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -67.0,
+             c_base: 1.2e-3,
+             c_amp: 7.4e-3,
+             sigma: 20.0
+           }
+       }
+     },
+```
+
+We model a Na+ channel the same way as the K channel: specifying its permeativity
+to various ions, its activation staeady state magnitude and timecourse, and its
+inactivation steady state and timecourse.
