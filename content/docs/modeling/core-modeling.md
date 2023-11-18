@@ -749,3 +749,14 @@ and is used for channels like the giant squid axon's Na+ channel.
 We model a Na+ channel the same way as the K channel: specifying its permeativity
 to various ions, its activation staeady state magnitude and timecourse, and its
 inactivation steady state and timecourse.
+
+## The Synapse Constructor
+
+Returning to our top-level scene, there is one more entity we have to describe,
+the Synapse.
+
+Synapses in NeuronBench are modeled conteptually as a pair of mechanisms: a
+presynaptic voltage-dependent neurotransmitter pump, and a set of post-synaptic 
+ion channels gated by neurotransmitter concentration.
+
+A concrete 
