@@ -14,26 +14,42 @@ toc = true
 top = false
 +++
 
-## What is the AdiDoks?
+## What is NeuronBench?
 
-AdiDoks is a Zola theme for Documentation's sites, ported by the Hugo Theme
-[Doks](https://getdoks.org), which is a pretty nice theme. Thanks a lot to 
-[*h-enk*](https://github.com/h-enk), the creator of the [Doks](https://getdoks.org).
+A no-code way to distribute interactive, biologically realistic neural networks
+to anyone. A low-code system for building neural networks that guide your
+students or illustrate your own novel models of neural computation.
 
-## Keyboard shortcuts for search?
+Think of NeuronBench whenever you are discussing neural networks and you wish
+you (and whoever you are talking to) had a real example of the thing you were
+talking about.
 
-- focus: `/`
-- select: `↓` and `↑`
-- open: `Enter`
-- close: `Esc`
+With existing modeling frameworks, you have to distribute installation instructions.
+With NeuronBench, you send a single URL, and they get a realtime simulation.
 
-## Other documentation?
+## Does NeuronBench compete with NEURON, Brian, Arbor, Genesis, etc?
 
-- [Netlify](https://docs.netlify.com/)
-- [Zola](https://www.getzola.org/documentation/getting-started/overview/)
+NeuronBench emphasizes interactivity while traditional modeling tools focus on
+scalability, speed, scriptability and customizability. NeuronBench runs in the
+browser, while most simulators run on a server or in a cluster. If you are building
+a model for your research paper and your focus is on the final rendered output,
+then traditional simulators like NEURON are the more appropriate tool.
 
-## Contact the creator?
+## How many neurons can I simulate on NeuronBench?
 
-Send *Aaran Xu* an E-mail:
+Several very complicated neurons (500 segments), or about 1000 very simple
+neurons. NeuronBench simulations run directly in the web browser and performance
+is dependent on how powerful the user's computer is. Simulations can run on the
+iPad, but not on mobile phones.
 
-- <aaranxu@outlook.com>
+## Is NeuronBench open source?
+
+Yes! The [simulator](https://github.com/neuronbench/nb-sim) and the
+[configuration language](https://github.com/neuronbench/nb-lang) are developed
+in the open. The code hosting our website is private for security reasons.
+
+
+## Where can I go for help?
+
+Join the <a href="https://discord.gg/5uV9NY6ybG">NeuronBench Discord Server</a>
+to chat with the NeuronBench team and other community members.

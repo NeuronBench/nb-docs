@@ -1,6 +1,6 @@
 +++
 title = "Quick Start"
-description = "One page summary of how to start a new AdiDoks project."
+description = "Speed-running a new project on NeuronBench."
 date = 2021-05-01T08:20:00+00:00
 updated = 2021-05-01T08:20:00+00:00
 draft = false
@@ -9,7 +9,7 @@ sort_by = "weight"
 template = "docs/page.html"
 
 [extra]
-lead = "One page summary of how to start a new AdiDoks project."
+lead = "Speed-running a new project on NeuronBench."
 toc = true
 top = false
 +++

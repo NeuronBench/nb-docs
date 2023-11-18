@@ -1,6 +1,6 @@
 +++
 title = "How to Contribute"
-description = "Contribute to AdiDoks, improve documentation, or submit to showcase."
+description = "Contribute to NeuronBench."
 date = 2021-05-01T18:10:00+00:00
 updated = 2021-05-01T18:10:00+00:00
 draft = false
@@ -9,29 +9,29 @@ sort_by = "weight"
 template = "docs/page.html"
 
 [extra]
-lead = "Contribute to AdiDoks, improve documentation, or submit to showcase."
+lead = "You can contribute to NeuronBench development!"
 toc = true
 top = false
 +++
 
 👉 Make sure to read the [Code of Conduct](../code-of-conduct/).
 
-## Contribute to Doks
+## Contribute to the simulator
 
-👉 The AdiDoks code lives in the [`adidoks` repository](https://github.com/aaranxu/adidoks)
+👉 The NeuronBench simulator code lives in the
+[`nb-sim`](https://github.com/neuronbench/nb-sim) repository.
 
-- Follow the [GitHub flow](https://guides.github.com/introduction/flow/).
-- Follow the [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+The simulator is written in [Rust](https://rust-lang.org) and builds on top of the
+[Bevy Game Engine](https://bevyengine.org).
 
-### Create an issue
+## Contribute to the configuration language
 
-- [Bug report](https://github.com/aaranxu/adidoks/issues/new?template=bug-report---.md)
-- [Feature request](https://github.com/aaranxu/adidoks/issues/new?template=feature-request---.md)
+👉 The NeuronBench configuration language code lives in the [`nb-lang`](https://github.com/neuronbench/nb-lang) repository.
+
+The simulator is written in [Haskell](https://www.haskell.org) and builds on top of the
+[Fall from Grace](https://github.com/Gabriella439/grace) configuration language.
 
 ## Improve documentation
 
-👉 The documentation lives in [`./content/docs/`](https://github.com/aaranxu/adidoks/tree/master/content/docs)
-of the [`adidoks` repository](https://github.com/h-enk/getdoks.org).
-
-- Follow the [GitHub flow](https://guides.github.com/introduction/flow/).
-- Follow the [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0/)
+👉 The documentation lives in [`./content/docs/`](https://github.com/neuronbench/nb-docs/tree/main/content/docs)
+of the [`nb-docs`](https://github.com/neuronbench/nb-docs) repository.

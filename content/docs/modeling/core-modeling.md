@@ -22,10 +22,13 @@ of ion channels.
 
 It can be overwhelming to encounter abstract things like `Scene`, the unfamiliar
 syntaxn of NeuronBench's language, and the many layers of a network
-specification all at once. If you are familiar with ion channels and prefer to
+specification all at once.
+
+<!--
+If you are familiar with ion channels and prefer to
 learn in the bottom-up direction, starting with channels, then building
 membranes and neurons, you might like to start with [Building a Neuron From
-Scratch](../../tutorials/build-a-neuron-from-scratch/).
+Scratch](../../tutorials/build-a-neuron-from-scratch/). -->
 
 ## Import links
 
@@ -122,9 +125,9 @@ Scene {
 
 A located neuron is defined as a record with these three fields:
 
-  - `neuron`: A [Neuron](../language-ref/neuron/), which we will explore soon.
+  - `neuron`: A `Neuron`, which we will explore soon.
   - `location`: A record with fields specifying the x, y and z location of the soma.
-  - `stimulator_segments`: A list of pairs of `segment` and [Stimulator](../language-ref/stimulator/)
+  - `stimulator_segments`: A list of pairs of `segment` and `Stimulator`.
 
 #### Aside: Constructors vs. records
 
@@ -171,7 +174,7 @@ Neuron {
 
 The `Neuron` constructor applies to a record with two fields:
 
- - `membranes`: A list of [`Membrane`s](../language-ref/membrane/).
+ - `membranes`: A list of `Membrane`.
  - `segments`: A list of segment records. Segments specify the morphology of the neuron
     and its linkage to the membrane. A segment record has these fields:
       - `id`: An identifier label for the segment.
@@ -710,8 +713,10 @@ We specify the
 Gaussian parameters under the `time_constant` field. We also use a `Gaussian`
 constructor, because there are other functions we can use for the time constant
 beyond Gaussians, but we will not cover the details of that here.
+
+<!--
 (See [Time Constants](../../language-reference/time-constants/) if you are
-interested).
+interested). -->
 
 The parameters of a Gaussian function are specified with the fields `c_base`, `c_amp`, `v_at_max_tau_mv`, and `sigma`.
 
