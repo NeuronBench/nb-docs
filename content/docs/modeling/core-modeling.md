@@ -54,7 +54,7 @@ complicated configuration code:
 
 ```
 let neuron = https://neuronbench.com/imalsogreg/docs-demo/neuron.ffg
-let synapses = https://neuronbench.com/imalsogreg/docs-demo/synapse.ffg
+let synapse = https://neuronbench.com/imalsogreg/docs-demo/synapse.ffg
 let stimulator =
   Stimulator {
     envelope: {
@@ -86,7 +86,7 @@ Scene {
     }
 
   ],
-  synapses: synapses
+  synapses: [synapse]
 }
 ```
 
@@ -759,4 +759,79 @@ Synapses in NeuronBench are modeled conteptually as a pair of mechanisms: a
 presynaptic voltage-dependent neurotransmitter pump, and a set of post-synaptic 
 ion channels gated by neurotransmitter concentration.
 
-A concrete 
+We have a concrete example to study in the synapse file imported by our
+top level scene: `https://neuronbench.com/imalsogreg/docs-demo/synapse.ffg`
+
+```
+let
+  glutamate_release = {
+    transmitter: Glutamate {},
+    transmitter_pump_params: {
+      target_concentration: {
+        min_molar: 1.0e-4,
+        max_molar: 1.1e-2,
+        slope: 1.0,
+        v_at_half_max_mv: 0.0
+      },
+      time_constant: Gaussian {
+        v_at_max_tau_mv: 0.0,
+        c_base: 1.0e-3,
+        c_amp: 1.0e-6,
+        sigma: 1.0
+      }
+    }
+  }
+let
+  ampa_receptor = {
+    membrane_channel: {
+      channel: Channel {
+        ion_selectivity: { k: 0.5, na: 0.5, cl: 0.0, ca: 0.0 },
+        activation: null,
+        inactivation: null
+      },
+      siemens_per_square_cm: 1.0e7
+    },
+    neurotransmitter_sensitivity: {
+      transmitter: Glutamate {},
+      concentration_at_half_max_molar: 3e-3,
+      slope: 10000.0
+    }
+  }
+
+in
+Synapse {
+  pre_neuron: 0,
+  pre_segment: 37,
+  post_neuron: 1,
+  post_segment: 330,
+  synapse_membranes: {
+    cleft_solution: { k: 5.0e-3, na: 145.0e-3, cl: 110.0e-3, ca: 2.5e-3 },
+    presynaptic_pumps: [ glutamate_release ],
+    postsynaptic_receptors: [ ampa_receptor ],
+    surface_area_square_mm: 1.0e-6,
+    transmitter_concentrations: { glutamate_molar: 0.1e-3, gaba_molar: 0.1e-3 }
+  }
+}
+```
+
+This configuation file does a lot of setup before calling the `Synapse`
+constructor. In the spirit of our top-down approach in this tutorial,
+we will look at the `Synapse` field first, and then drill down to
+the details.
+
+The fields `pre_neuron`, `pre_segment`, `post_neuron` and `post_synapse`
+attach the synapse to a pair of neurons. Biological synapses originate
+from an axon and usually terminate on a dendrite or soma, but NeuronBench
+does not impose this restriction. `synapse_membranes` specifies the
+intrinsic properties of the synapse:
+
+ - `cleft_solution`: The ionic composition of the synaptic cleft.
+ - `presynaptic_pumps`: A list of mechanisms that release neurotransmitter
+    into the cleft as a function of presaptic membrane voltage and time.
+ - `postsynaptic_receptors`: A list of receptors, which consist of an ion
+    channel paired with neurotransmitter gating.
+ - `surface_area_square_mm`: A rudimentary way of scaling the synaptic
+    strength.
+ - `transmitter_concentrations`: The initial concentrations of neurotransmitter
+    in the synaptic cleft.
+
