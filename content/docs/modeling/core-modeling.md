@@ -826,7 +826,7 @@ does not impose this restriction. `synapse_membranes` specifies the
 intrinsic properties of the synapse:
 
  - `cleft_solution`: The ionic composition of the synaptic cleft.
- - `presynaptic_pumps`: A list of mechanisms that release neurotransmitter
+ - `presynaptic_pumps`: A mechanism that releases neurotransmitter
     into the cleft as a function of presaptic membrane voltage and time.
  - `postsynaptic_receptors`: A list of receptors, which consist of an ion
     channel paired with neurotransmitter gating.
@@ -835,3 +835,67 @@ intrinsic properties of the synapse:
  - `transmitter_concentrations`: The initial concentrations of neurotransmitter
     in the synaptic cleft.
 
+
+Each element in `presynaptic_pumps` is a record with the following fields:
+
+ - `transmitter`: The neurotransmitter controlled by thihs pump. 
+   Either `Glutamate {}` or `GABA {}`.
+ - `transmitter_pump_params.target_concentration`: The parameters of a
+   sigmoid function, mapping presynaptic membrane voltage to the steady-state
+   neurotransmitter concentration.
+ - `transmitter_pump_params.time_constant`: The parameters of the time constant
+   determining how quickly the neurotransmitter approaches its steady-state value,
+   as a function of presynaptic membrane voltage.
+ 
+Each element in `postsynaptic_receptors` is a record with a field `membrane_channel`
+specifying the peak current and the `Channel` properties of a postsynaptic channel current,
+and a new field, `neurotransmitter_sensitivity`, which specifies a Bolzman function
+relating the scaling of the `Channel` by the concentration of the specified
+neurotransmitter.
+ 
+## Conclusion
+
+We began with a simple scene configuration, a single URL link; and we iteratively
+loaded that scene, examined its fields, and recursively explored each sub-component.
+
+We learned the basic structure of the following named Entities:
+
+ - `Channel`
+ - `Membrane`
+ - `Neuron`
+ - `Synapse`
+ - `Scene`
+
+And along the way, we learned about the flexibility of the syntax and the techniques
+for organizing your data in the way that makes the most sense for your project, such
+as `let _ in _` constructs and top-level custom records.
+
+This was a lot of information, congratulations of finishing! You now know enough to
+construct your own basic networks, and to produce configurations in a way that
+allows other users to build on top of your work.
+
+#### What to do next
+
+**Build your own models.** Using the techniques you learned here, build up your own
+neural network. You can directly use the existing `Channels` and `Membranes`, try to
+tweak them to have different properties, or generate complete new ones from parameters
+you find in papers or referencee textbooks.
+
+**Model a phenomenon.** What interests you in neuroscience? Take an interesting
+phenomenon from computational neuroscience and implement it as an interactive
+model. Can you build a coincidence detector? A winner-takes-all network? A
+ring attractor?
+
+**Extend the simulator.** NeuronBench is a very new project, and the simulator
+and specification language may lack the specific features you need for building
+your models. If you find this to be the case, please share your findings with
+the development team, or consider contributing your expertise to the project
+by implementing or consulting on the features you need.
+
+**Publicize your work.** Users with paid subscriptions can create permanent
+public links to their models. You can use these links to make your model
+publically accessible to everyone, even people without a NeuronBench account. If
+you are giving a talk about a neuron with special membrane properties, or an
+interesting new dynamical network, your audience can interact with your
+simulation in real time (without learning the intricacies of the configuration
+language or installing any software).
