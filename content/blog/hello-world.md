@@ -48,13 +48,15 @@ blog post, relates to this creative energy, and the fact that specialized tools
 could refine that energy into concrete scientific discoveries.
 
 How could someone interact with your newly discovered dendritic computation?
-Max, the student who just learned about refractory periods wants to validate
-your findings with stronger or weaker Na+ inactivation. Stephanie, who
-specializes in alpha rhythms adds an oscillatory current to the soma and finds
-that your phenomenon works best at certain phases. Garret who studies species
-differences has already lenthened your apical dendrites and enriched their Ih
-currents; he has a hunch that your effect is stonger in cells with human-like
-morphological characteristics.
+Max, the student who just learned about refractory periods, wants to validate
+your findings with stronger or weaker
+<math display="inline"><msup><mi>Na</mi><mi>+</mi></msup></math>
+inactivation. Stephanie, who
+specializes in alpha rhythms, adds an oscillatory current to the soma and finds
+that your phenomenon works best at certain phases. Garrett, who studies species
+differences, has already lenthened your apical dendrites and enriched their
+<math display="inline"><msub><mi>I</mi><mi>h</mi></msub></math>
+currents; he has a hunch that your effect is stonger more human-like neurons.
 
 NeuronBench aims at this goal of instantaneous interaction through a "web-first"
 approach. This means focusing on remixing, interaction, distribution and
