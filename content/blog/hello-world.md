@@ -12,16 +12,20 @@ authors = ["Greg"]
 +++
 
 If you're a neuroscientist, you probably remember the first time you saw a neuron
-in culture, heard your first amplified extracellural action potential, or
-built and ran your first leakey integrate-and-fire model. These are transformative
+in culture, first heard an amplified extracellular action potential, or
+built and ran your first leaky integrate-and-fire model. These are transformative
 personal experiences!
+
+![An image of a neuron](../hello-world10.jpg "An artistic rendering of a neuron. Image credit: DALL-E 2").
+
+*Image credit: DALL-E2*
 
 But you may not remember the first picture of a neuron you saw in a textbook, or
 the first time you read about synapses and LTP. Why not?
 
 The difference is in the tangible, real-time connection you have to the real thing
 in front of you. You can have a conversation with it - illuminate it with a different
-wavelength of light, add extracellular potassium to drive a barage of spikes, or tweak
+wavelength of light, add extracellular potassium to drive a barrage of spikes, or tweak
 your model parameters, and the real object in front of you responds. The brain isn't
 just an interesting abstraction from a textbook anymore.
 
@@ -36,16 +40,16 @@ by changing color, all in real time.
 
 Extending this idea just a little: many of our research findings could have
 a deeper impact if they provided a toy version that the audience could play
-with. Maybe you just discovered a new form of dendritic computation. While Our
+with. Maybe you just discovered a new form of dendritic computation. While our
 usual figures and slides convey the technical details well enough, it would be
 far more memorable if your audience members could reach your model through a
 link, play with it, feel that they are rediscovering your phenomenon for
 themselves.
 
-In your best talks, the audience is broiling with ideas to extend or break
-your model. And the final thing to say about the thesis for NeuronBench in this
-blog post, relates to this creative energy, and the fact that specialized tools
-could refine that energy into concrete scientific discoveries.
+In your most engaging talks talks, the audience is brimming with ideas to extend
+or challenge your model. And the final thing to say about the thesis for NeuronBench
+in this blog post, relates to this creative energy, and the fact that specialized
+tools could refine that energy into concrete scientific discoveries.
 
 How could someone interact with your newly discovered dendritic computation?
 Max, the student who just learned about refractory periods, wants to validate
@@ -54,15 +58,15 @@ your findings with stronger or weaker
 inactivation. Stephanie, who
 specializes in alpha rhythms, adds an oscillatory current to the soma and finds
 that your phenomenon works best at certain phases. Garrett, who studies species
-differences, has already lenthened your apical dendrites and enriched their
+differences, has already lengthened your apical dendrites and enriched their
 <math display="inline"><msub><mi>I</mi><mi>h</mi></msub></math>
-currents; he has a hunch that your effect is stonger more human-like neurons.
+currents; he has a hunch that your effect is stronger in more human-like neurons.
 
 NeuronBench aims at this goal of instantaneous interaction through a "web-first"
 approach. This means focusing on remixing, interaction, distribution and
-visualization, over other desirable features for a neuron simulator. NeuronBench
-doesn't aim to be the best platform for neuroscience research, or to be the
-fastest cluster workhorse. The simulator and the language are optimized for
+visualization, over other features traditionally sought in a neuron simulator.
+NeuronBench doesn't aim to be the best platform for neuroscience research, or to be
+the fastest cluster workhorse. The simulator and the language are optimized for
 demonstrating neural networks, letting users access your networks without
 installing software, and allowing people to build on top of each other's work.
 

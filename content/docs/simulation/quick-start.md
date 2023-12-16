@@ -30,6 +30,8 @@ window so you can play with it while reading these instructions.
 
 ![A screetshot of the default simulator UI](../fig10.jpg "The default view").
 
+*Image credit: DALL-E2*
+
 The simulation will start with a view of the neural network and the
 `NeuronBench` menu.
 
