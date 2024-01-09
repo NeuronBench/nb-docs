@@ -152,3 +152,10 @@ the neuron. You should see a yellow trace begin to form on the oscilloscope
 viewport. If not, try zooming in on the neuron, click `1`, and click the
 neuron again.
 
+**Draw the graph of a single action potential. Label the minimum and maximum
+membrane potential reached by that segment. Indicate the width at half max (the
+time difference between when the neuron has gotten half way to its peak voltage
+and when it has returned half way to its baseline voltage).**
+
+### Section 2: Channel properties
+
