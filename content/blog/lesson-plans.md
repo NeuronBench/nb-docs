@@ -159,3 +159,170 @@ and when it has returned half way to its baseline voltage).**
 
 ### Section 2: Channel properties
 
+Now we will recap what you learned about the specific properties of these ion
+channels by experimenting with their low-level properties.
+
+Specifically, we will take a close look at the voltage gating of the activation
+and inactivation components of the Na+ channel, as well as the time constant of
+the delayed rectifier K+ channel.
+
+Start by copying this configuration file in to your open configuration file:
+
+```
+# Define ion channels.
+let channels = {
+     k: Channel {
+       ion_selectivity: { k: 1.0, na: 0.0, cl: 0.0, ca: 0.0 },
+       activation: {
+         gates: 4,
+         magnitude: {v_at_half_max_mv: -53.0, slope: 15.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -79.0,
+             c_base: 1.1e-3,
+             c_amp: 4.7e-3,
+             sigma: 50.0
+           }
+       },
+       inactivation: null,
+     },
+
+     na: Channel {
+       ion_selectivity: { k: 0.0, na: 1.0, cl: 0.0, ca: 0.0 },
+       activation: {
+         gates: 3,
+         magnitude: {v_at_half_max_mv: -40.0, slope: 15.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -38.0,
+             c_base: 0.04e-3,
+             c_amp: 0.46e-3,
+             sigma: 30.0
+           }
+       },
+       inactivation: {
+         gates: 1,
+         magnitude: {v_at_half_max_mv: -62.0, slope: -7.0},
+         time_constant: Gaussian
+           { v_at_max_tau_mv: -67.0,
+             c_base: 1.2e-3,
+             c_amp: 7.4e-3,
+             sigma: 20.0
+           }
+       }
+     },
+
+     leak: Channel {
+       ion_selectivity: { k: 0.0, na: 0.0, cl: 1.0, ca: 0.0 },
+       activation: null,
+       inactivation: null,
+     }
+
+}
+let buildScene = https://neuronbench.com/imalsogreg/lesson-0000-understanding-the-action-potential/buildScene
+
+# Define a cell membrane with the three Hodgkin-Huxley conductances:
+#  - Inactivating sodium conductance
+#  - Voltage-gated potassium conductance
+#  - Leak conductance
+let membrane = Membrane {
+  capacitance_farads_per_square_cm: 2.0e-6,
+  membrane_channels: [
+    { channel: channels.na , siemens_per_square_cm: 120.0e-3 },
+    { channel: channels.leak , siemens_per_square_cm: 0.3e-3 },
+    { channel: channels.k , siemens_per_square_cm: 36.0e-3 }
+  ]
+}
+
+in
+
+# Call the helper function to apply our custom membrane to an example neuron.
+buildScene membrane
+```
+
+This configuration differs from the one we used earlier. It defines its
+own ion channels, rather than importing standard ones. This way we can
+play with the ion channel properties and observe the results.
+
+The last channel, `leak`, is the easiest to understand: is is defined as
+as channel that is selectively permeable to chloride ions and has no activation
+or inactivation dynamics.
+
+Depending on the level of detail of your course, the specification of the
+channels `k` and `na` might be more complicated, or at least different, from
+what you expected. Let's zoom in on `k`:
+
+```
+k: Channel {
+    ion_selectivity: { k: 1.0, na: 0.0, cl: 0.0, ca: 0.0 },
+    activation: {
+      gates: 4,
+      magnitude: {v_at_half_max_mv: -53.0, slope: 15.0},
+      time_constant: Gaussian
+        { v_at_max_tau_mv: -79.0,
+          c_base: 1.1e-3,
+          c_amp: 4.7e-3,
+          sigma: 50.0
+        }
+    },
+    inactivation: null,
+  },
+```
+
+For a detailed description of every field, refer to the
+[Channel](https://docs.neuronbench.com/docs/modeling/core-modeling/#the-channel-constructor)
+documentation. But we can make some simplifying assumptions without sacrificing
+much accuracy:
+
+ - `magnitude.v_at_half_max_mv`: this is roughly the voltage gating level of this component
+    of the channel.
+ - `time_constant.c_base` alone is the time-constant if you set `time_constant.c_amp` to 0.
+    Otherwise the time constant is always somewhere between `c_base` and `c_base + c_amp`.
+ 
+ Using this simplification, we can see our K+ channel activates at `-53 mV` and the time constant
+ is between 1e-3 and 5e-3.
+
+
+
+#### Exercise 1: Na+ Activation
+
+Na+ channels in our configuration activate at `-40 mv`. Let us experiment with this voltage
+gating to determine how it impacts the sensitivity of the neuron to current pulses.
+
+First we will raise the activation from `-40 mV` to some higher value.
+
+**Will raising the activation voltage of the Na+ channel make the neuron more likely or
+less likely to spikee?**
+
+**Find the highest voltage at which the neuron fires an action potential in
+response to the first current pulse (to an accuracy order of 1 or 2 mV). Draw
+the action potential waveform you observe with this activation voltage. Draw the
+voltage waveform again after raising the activation voltage another 3 mV.**
+
+Now test the opposite direction - change the activation voltage to `-60 mV`.
+
+**Draw the resulting membrane potential trace. What range of membrane voltages
+are observed? Should this activity be considered an action potential? Why or why
+not?**
+
+#### Exercise 2: Spike squeezing and stretching
+
+The width of the action potential is determined by how quickly the membrane potential
+returns to baseline after reaching its peak, which it turn is determined by:
+ - Activation of the K+ rectifier channels
+ - Inactivatioon of the Na+ channels
+
+Set the Na+ channel inactivation timeconstant `c_base` and `c_amp` to `0.6e-3`
+and `4.0e-3` respectively, about half their normal value. Smaller time constants
+translate to faster changes in the channel gating.
+
+**How does the action potential shape with reduced inactivation time_constant
+parameters compare to the original action potential shape, in terms of width and
+peak amplitude?**
+
+**What happens to the action potential shape if we divide `c_base` and `c_amp` by 2 once again,
+to `0.3e-3 and 2e-3`?**
+
+**Bonus question: Changing the inactivation time constant `c_base` and `c_amp` to `0.3e-3`
+and `2.0e-3` had a deleterious effect on the action potential shape. In the previous question
+you hypothesized a mechanism for this. Based on that hypothesis, find some _other_ parameter
+of either the Na+ channel or another channel you can change, to restore action potential
+propagation through the neuron.**
