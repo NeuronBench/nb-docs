@@ -53,8 +53,8 @@ The easiest way to administer this lesson is to distribute the link to the PDF t
  
 The original files are also available, in case you would like to customize them.
  
- - [Apple Pages](lesson-plans-00-action-potential.pages) (3.6Mb)
- - [docx](lesson-plans-00-action-potential.pages) (3.2Mb)
+ - [Apple Pages](../exploring_the_action_potential.pages) (3.6Mb)
+ - [docx](../exploring_the_action_potential.docx) (3.2Mb)
 
 ## Creative Commons License
 
