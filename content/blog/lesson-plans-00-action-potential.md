@@ -49,12 +49,12 @@ measure the effect this has on an actively spiking neuron.
 
 The easiest way to administer this lesson is to distribute the link to the PDF to your students. It contains instructions for getting started on NeuronBench. If your students open the link in Firefox they will be able to answer questions and draw diagrams directly on the PDF, save their changes and send them to you for grading.
 
- - [PDF](../exploring_the_action_potential.pdf) (2.4Mb)
+ - [PDF](../exploring_the_action_potential.pdf) (275 kb)
  
 The original files are also available, in case you would like to customize them.
  
- - [Apple Pages](../exploring_the_action_potential.pages) (3.6Mb)
- - [docx](../exploring_the_action_potential.docx) (3.2Mb)
+ - [Apple Pages](../exploring_the_action_potential.pages) (567 kb)
+ - [docx](../exploring_the_action_potential.docx) (162 kb)
 
 ## Creative Commons License
 
