@@ -39,7 +39,7 @@ measure the effect this has on an actively spiking neuron.
 
 ### Requirements
 
- - Understanding of the Nearnst and GHK Equations.
+ - Understanding of the Nernst and GHK equations.
  - Classroom knowledge of the role of Na+, K+ and Leak channels in determining
    the dynamics of an action potential in an idealized neuron segment.
  - Access to a Gmail account (for logging in to the NeuronBench app).
