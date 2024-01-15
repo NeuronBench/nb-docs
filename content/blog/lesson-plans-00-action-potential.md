@@ -40,13 +40,15 @@ experience with the core concepts behind the Hodgkin-Hukley action potential.
 
 The easiest way to administer this lesson is to distribute the link to the PDF
 to your students. It contains instructions for getting started on NeuronBench.
-If your students open the link in Firefox they will be able to answer questions
+If your students open the PDF in Firefox they will be able to answer questions
 and draw diagrams directly on the PDF, save their changes and send them to you
-for grading.
+for grading. The NeuronBench simulator itself works on all modern desktop
+browsers.
 
  - [PDF](../exploring_the_action_potential.pdf) (275 kb)
  
-The original files are also available, in case you would like to customize them.
+In case you would like to tailor the lesson plans to your own needs, they can
+be downloaded for MS Word or Apple Pages.
  
  - [Apple Pages](../exploring_the_action_potential.pages) (567 kb)
  - [docx](../exploring_the_action_potential.docx) (162 kb)
@@ -54,5 +56,3 @@ The original files are also available, in case you would like to customize them.
 ## Creative Commons License
 
  <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://docs.neuronbench.com/blog/lesson-plans-00-action-potential/">Exploring the Action Potential</a> by <span property="cc:attributionName">NeuronBench</span> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p> 
-
-Feel free to reuse and remix it for your purposes, including commercial purposes, with attribution to NeuronBench.
