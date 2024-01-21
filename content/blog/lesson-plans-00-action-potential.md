@@ -45,13 +45,13 @@ and draw diagrams directly on the PDF, save their changes and send them to you
 for grading. The NeuronBench simulator itself works on all modern desktop
 browsers.
 
- - [PDF](../exploring_the_action_potential.pdf) (275 kb)
+ - [PDF](../exploring_the_action_potential.pdf) (1.0 Mb)
  
 In case you would like to tailor the lesson plans to your own needs, they can
 be downloaded for MS Word or Apple Pages.
  
- - [Apple Pages](../exploring_the_action_potential.pages) (567 kb)
- - [docx](../exploring_the_action_potential.docx) (162 kb)
+ - [Apple Pages](../exploring_the_action_potential.pages) (2.0 Mb)
+ - [docx](../exploring_the_action_potential.docx) (0.8 Mb)
 
 ## Creative Commons License
 
