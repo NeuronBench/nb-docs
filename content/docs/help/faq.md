@@ -45,7 +45,7 @@ iPad, but not on mobile phones.
 ## Is NeuronBench open source?
 
 Yes! The [simulator](https://github.com/neuronbench/nb-sim) and the
-[configuration language](https://github.com/neuronbench/nb-lang) are developed
+[configuration language support](https://github.com/neuronbench/nb-nickel) are developed
 in the open. The code hosting our website is private for security reasons.
 
 
