@@ -26,10 +26,10 @@ The simulator is written in [Rust](https://rust-lang.org) and builds on top of t
 
 ## Contribute to the configuration language
 
-👉 The NeuronBench configuration language code lives in the [`nb-lang`](https://github.com/neuronbench/nb-lang) repository.
+👉 NeuronBench models are written in [Nickel](https://nickel-lang.org). The code that evaluates them, and the `nb` contracts such as `nb.Scene`, live in the [`nb-nickel`](https://github.com/neuronbench/nb-nickel) repository.
 
-The simulator is written in [Haskell](https://www.haskell.org) and builds on top of the
-[Fall from Grace](https://github.com/Gabriella439/grace) configuration language.
+It is written in [Rust](https://rust-lang.org) and builds on top of the
+[Nickel](https://github.com/tweag/nickel) configuration language.
 
 ## Improve documentation
 

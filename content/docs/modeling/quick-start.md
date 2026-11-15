@@ -40,20 +40,28 @@ Click "Create", you will be taken to the code editor.
 Paste the following code into the editor, and click `Save`:
 
 ```
-let my_scene = https://neuronbench.com/imalsogreg/docs-demo/scene.ffg
-in my_scene
+let my_scene = import "/imalsogreg/docs-demo/scene.ncl" in
+my_scene
 ```
 
 ### Interpreting this code
 
-This "scene" is an expression in NeuronBench's configuration language. The name `my_scene` is not important,  you could choose any name you like.
+This "scene" is an expression in NeuronBench's configuration language,
+[Nickel](https://nickel-lang.org). The name `my_scene` is not important, you
+could choose any name you like.
 
-This code binds the configuration at the address
-`https://neuronbench.com/imalsogreg/docs-demo/scene.ffg` to the variable
-`my_scene`, and returns `my_scene`.
+`import "/imalsogreg/docs-demo/scene.ncl"` stands for the configuration in the
+file at that path. A path that starts with `/` is the address of a file on
+NeuronBench, without the `https://neuronbench.com` in front: this one is the
+file `scene.ncl` in the `docs-demo` project of the account `imalsogreg`, which
+you can open at `https://neuronbench.com/imalsogreg/docs-demo/scene.ncl`.
+
+The code binds that configuration to the variable `my_scene`, and returns
+`my_scene`.
 
 In [Core Modeling](../core-modeling/), we will look at the contents of
-`https://neuronbench.com/imalsogreg/docs-demo/scene.ffg` to see what makes up a `Scene`. For now, we will just use the `Scene` directly, without looking into its details.
+`scene.ncl` to see what makes up a `Scene`. For now, we will just use the
+`Scene` directly, without looking into its details.
 
 
 ## Preview the Scene
